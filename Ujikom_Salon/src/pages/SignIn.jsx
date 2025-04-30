@@ -14,31 +14,69 @@ export default function SignIn() {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.post('http://localhost:8000/api/login', formData);
+  //     console.log("Login berhasil:", response.data);
+
+  //     const { user, permissions, token } = response.data;
+
+  //     // Simpan token ke localStorage
+  //     localStorage.setItem("token", token.access_token);
+  //     localStorage.setItem("user", JSON.stringify(user));
+  //     localStorage.setItem("permissions", JSON.stringify(permissions));
+
+  //     // Redirect berdasarkan permissions
+  //   //   if (permissions["create-user"] && permissions["delete-user"]) {
+  //   //     navigate("/user");
+  //   //   } else {
+  //   //     navigate("/admin");
+  //   //   }
+
+  //   // } catch (error) {
+  //   //   console.error("Login gagal:", error.response?.data || error.message);
+  //   //   alert("Login gagal. Silakan periksa kembali email dan password.");
+  //   // }
+
+  //   if (userEmail === "admin@gmail.com") {
+  //     navigate("/admin");
+  //   } else {
+  //     navigate("/user");
+  //   }
+  
+  // } catch (error) {
+  //   console.error("Login gagal:", error.response?.data || error.message);
+  //   alert("Login gagal. Silakan periksa kembali email dan password.");
+  // }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8000/api/login', formData);
       console.log("Login berhasil:", response.data);
-
+  
       const { user, permissions, token } = response.data;
-
-      // Simpan token ke localStorage
+  
+      // Simpan ke localStorage
       localStorage.setItem("token", token.access_token);
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("permissions", JSON.stringify(permissions));
-
-      // Redirect berdasarkan permissions
-      if (permissions["create-user"] && permissions["delete-user"]) {
-        navigate("/user");
+  
+      // Redirect berdasarkan email
+      if (user.email === "admin@gmail.com") {
+        navigate("/Admin");
       } else {
-        navigate("/admin");
+        navigate("/user");
       }
-
+  
     } catch (error) {
       console.error("Login gagal:", error.response?.data || error.message);
       alert("Login gagal. Silakan periksa kembali email dan password.");
     }
   };
+  
 
   return (
     <div className="flex min-h-screen">

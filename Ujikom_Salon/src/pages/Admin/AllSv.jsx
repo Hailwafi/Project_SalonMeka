@@ -1,104 +1,41 @@
-// src/pages/AllServices.jsx
-import React from "react";
-import { FaEye, FaEdit, FaTrash, FaFileImport, FaFileExport } from "react-icons/fa"; // updated
-
-const services = [  {
-    id: 1,
-    title: "Potong Rambut",
-    category: "Hair",
-    description: "Deskripsi potong rambut",
-    price: "Rp. 35.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 2,
-    title: "Nail art",
-    category: "Nail",
-    description: "Deskripsi Nail Art",
-    price: "Rp. 87.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 3,
-    title: "Makeup Wisuda",
-    category: "Make up",
-    description: "Deskripsi Makeup",
-    price: "Rp. 63.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 4,
-    title: "Curling",
-    category: "Styling",
-    description: "Deskripsi Curling",
-    price: "Rp. 44.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 5,
-    title: "Hair coloring",
-    category: "Hair",
-    description: "Deskripsi Hair Coloring",
-    price: "Rp. 65.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 6,
-    title: "Nail art",
-    category: "Nail",
-    description: "Deskripsi Nail Art",
-    price: "Rp. 22.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 7,
-    title: "Straightening",
-    category: "Styling",
-    description: "Deskripsi Straightening",
-    price: "Rp. 56.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 8,
-    title: "Curling",
-    category: "Styling",
-    description: "Deskripsi Curling",
-    price: "Rp. 90.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 9,
-    title: "Potong Rambut anak",
-    category: "Hair",
-    description: "Deskripsi potong rambut",
-    price: "Rp. 45.000",
-    createdAt: "2025-04-16 08:52:34",
-  },
-  {
-    id: 10,
-    title: "Makeup nikah",
-    category: "Make up",
-    description: "Deskripsi Makeup",
-    price: "Rp. 350.000",
-    createdAt: "2025-04-16 08:52:34",
-  }, // (Data services tetap sama seperti sebelumnya)
-];
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { FaEye, FaEdit, FaTrash, FaFileImport, FaFileExport } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export default function AllServices() {
+  const [services, setServices] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/user/layanan');
+        setServices(response.data.data);
+      } catch (error) {
+        console.error("There was an error fetching the services!", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
   return (
-    <div className="flex flex-col md:flex-row overflow-x-hidden"> {/* updated */}
-      <div className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 bg-gray-100 min-h-screen max-w-full"> {/* updated */}
+    <div className="flex flex-col md:flex-row overflow-x-hidden">
+      <div className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 bg-gray-100 min-h-screen max-w-full">
         <h1 className="text-3xl font-bold mb-6 text-center">All Services</h1>
 
         <div className="flex justify-between items-center mb-6">
-  <button className="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all">
-    Add Services
-  </button>
-</div>
-
+          <button
+            onClick={() => navigate('/Admin/Add/AddSv')}
+            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all"
+          >
+            Add Services
+          </button>
+        </div>
 
         {/* Filter Area */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0"> {/* updated */}
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6 space-y-4 md:space-y-0">
           <div className="flex items-center space-x-2">
             <label htmlFor="entries" className="text-sm font-medium">
               Entries per page

@@ -30,7 +30,7 @@ Route::middleware('api')->group(function () {
 
         // handle notifikasi dari midtrans
         // Route::post('/notification', [App\Http\Controllers\Api\Admin\MidtransController::class, 'handleNotification']);
-    
+
         // cek status pembayaran midtrans
         // Route::get('/status/{orderId}', [App\Http\Controllers\Api\Admin\MidtransController::class, 'checkStatus']);
     });
